@@ -1,12 +1,17 @@
 require 'eventmachine'
 
 EM.run do
-  EM.add_timer(5) do
-    puts "BOOM"
-    EM.stop_event_loop
+  p = EM::PeriodicTimer.new(1) do
+    puts "Tick ..."
   end
 
-  EM.add_periodic_timer(1) do
-    puts "Tick ..."
+  EM::Timer.new(5) do
+    puts "BOOM"
+    p.cancel
+  end
+
+  EM::Timer.new(8) do
+    puts "The googles, they do nothing"
+    EM.stop
   end
 end
